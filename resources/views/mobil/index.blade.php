@@ -35,7 +35,7 @@
                         <td>{{ $item->merek }}</td>
                         <td>{{ $item->deskripsi }}</td>
                         <td>
-                            <a href='' class="btn btn-warning btn-sm">Ubah</a>
+                            <a href='{{ url("mobil/$item->nomor_seri/edit") }}' class="btn btn-warning btn-sm">Ubah</a>
                             <a href='' class="btn btn-danger btn-sm">Hapus</a>
                         </td>
                     </tr>

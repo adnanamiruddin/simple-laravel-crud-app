@@ -33,6 +33,7 @@ class MobilController extends Controller
         Session::flash('nomor_seri', $request->nomor_seri);
         Session::flash('merek', $request->merek);
         Session::flash('deskripsi', $request->deskripsi);
+
         $request->validate([
             'nomor_seri' => 'required|numeric|unique:mobil,nomor_seri',
             'merek' => 'required',
@@ -44,6 +45,7 @@ class MobilController extends Controller
             'merek.required' => 'Merek harus diisi',
             'deskripsi.required' => 'Deskripsi harus diisi',
         ]);
+
         $data = [
             'nomor_seri' => $request->nomor_seri,
             'merek' => $request->merek,
@@ -66,7 +68,8 @@ class MobilController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = Mobil::where('nomor_seri', $id)->first();
+        return view('mobil/edit')->with('data', $data);
     }
 
     /**
@@ -74,7 +77,20 @@ class MobilController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'merek' => 'required',
+            'deskripsi' => 'required',
+        ], [
+            'merek.required' => 'Merek harus diisi',
+            'deskripsi.required' => 'Deskripsi harus diisi',
+        ]);
+
+        $data = [
+            'merek' => $request->merek,
+            'deskripsi' => $request->deskripsi,
+        ];
+        Mobil::where('nomor_seri', $id)->update($data);
+        return redirect()->to('mobil')->with('success', 'Data berhasil diubah');
     }
 
     /**
