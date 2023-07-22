@@ -11,9 +11,20 @@ class MobilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Mobil::orderBy('nomor_seri', 'desc')->paginate(3);
+        $kataKunci = $request->katakunci;
+        $jumlahItem = 4;
+
+        if (strlen($kataKunci)) {
+            $data = Mobil::where('nomor_seri', 'like', "%$kataKunci%")
+                ->orWhere('merek', 'like', "%$kataKunci%")
+                ->orWhere('deskripsi', 'like', "%$kataKunci%")
+                ->paginate($jumlahItem);
+        } else {
+            $data = Mobil::orderBy('nomor_seri', 'desc')->paginate(3);
+        }
+
         return view('mobil/index')->with('data', $data);
     }
 
