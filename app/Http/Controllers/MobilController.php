@@ -98,6 +98,7 @@ class MobilController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Mobil::where('nomor_seri', $id)->delete();
+        return redirect()->to('mobil')->with('success', 'Data berhasil dihapus');
     }
 }
